@@ -1,0 +1,8 @@
+- name: install mysql
+  become: true
+  apt:
+    name:
+      - mysql-server
+      - mysql-client
+    update_cache: yes
+

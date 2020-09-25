@@ -1,0 +1,44 @@
+- name: add ppa
+  become: true
+  apt_repository:
+    repo: ppa:ondrej/php
+
+- name: install php
+  become: true
+  apt:
+    name: 
+      - php7.4
+      - php7.4-common
+      - php7.4-bcmath
+      - php7.4-json
+      - php7.4-mbstring
+      - php7.4-xml
+      - php7.4-mysql
+      - openssl
+    update_cache: yes
+
+- stat: path=/usr/local/bin/composer
+  register: composer_bin
+
+- block:
+    - name: get composer hash
+      uri:
+        url: https://composer.github.io/installer.sig
+        return_content: true
+      register: composer_hash
+
+    - name: download composer
+      get_url:
+        url: https://getcomposer.org/installer
+        dest: /tmp/installer
+        checksum: "sha384:{{ composer_hash.content }}"
+
+    - name: install composer
+      shell: php /tmp/installer --install-dir=/tmp
+
+    - name: rename composer
+      become: true
+      shell: mv /tmp/composer.phar /usr/local/bin/composer
+
+  when: not composer_bin.stat.exists
+

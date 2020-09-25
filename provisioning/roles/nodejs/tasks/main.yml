@@ -1,0 +1,16 @@
+- block:
+    - name: add NodeSource package signing key
+      apt_key:
+        url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+        state: present
+
+    - name: add NodeSource repository
+      apt_repository:
+        repo: deb https://deb.nodesource.com/node_12.x bionic main
+        state: present
+
+    - name: install nodejs
+      apt:
+        name: nodejs
+  become: true
+

@@ -1,0 +1,7 @@
+- name: upgrade all
+  become: true
+  apt:
+    name: "*"
+    state: latest
+    update_cache: yes
+
