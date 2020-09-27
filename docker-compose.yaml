@@ -1,0 +1,34 @@
+x-project-dir: &project-dir /opt/project
+
+x-app-volumes: &app-volumes
+  - ${APP_NAME:-./web}:/opt/project
+
+version: "3.8"
+services:
+  node:
+    image: library/node:12.18.4-slim
+    restart: on-failure
+    volumes: *app-volumes
+    working_dir: *project-dir
+    command: npm run watch
+
+  db:
+    image: library/mysql:8.0
+    env_file:
+      - ./docker/.env
+    ports:
+      - 3306:3306
+    command: --default-authentication-plugin=mysql_native_password
+
+  web:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    env_file:
+      - ./docker/.env
+    ports:
+      - 8080:8080
+    restart: on-failure
+    volumes: *app-volumes
+    working_dir: *project-dir
+    command: php artisan serve --host 0.0.0.0 --port 8080
