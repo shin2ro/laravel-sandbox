@@ -1,0 +1,4 @@
+[Service]
+ExecStart=/usr/bin/npm run watch
+ExecStop=/bin/kill -INT ${MAINPID}
+WorkingDirectory={{ app_path }}
