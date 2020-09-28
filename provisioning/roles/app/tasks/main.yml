@@ -1,0 +1,21 @@
+- block:
+    - name: composer install
+      command:
+        cmd: composer install
+        chdir: "{{ app_path }}"
+    - name: npm install
+      command:
+        cmd: npm i
+        chdir: "{{ app_path }}"
+    - name: add unit file
+      template:
+        src: app.service.j2
+        dest: /etc/systemd/system/app.service
+    - name: run app
+      systemd:
+        name: app
+        daemon_reload: yes
+        enabled: yes
+        state: restarted
+  become: true
+  when: app_path is defined

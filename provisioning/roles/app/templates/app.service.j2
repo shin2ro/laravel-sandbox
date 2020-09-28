@@ -1,0 +1,4 @@
+[Service]
+ExecStart=/usr/bin/php artisan serve --host 0.0.0.0 --port 8080
+ExecStop=/bin/kill -INT ${MAINPID}
+WorkingDirectory={{ app_path }}
