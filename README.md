@@ -2,15 +2,6 @@
 
 ## Via Vagrant
 
-Create and edit `./provisioning/group_vars/all`
-
-```
-db_name: laravel
-db_user: laravel
-db_password: password
-app_path: /vagrant/web
-```
-
 Start development server
 
 ```

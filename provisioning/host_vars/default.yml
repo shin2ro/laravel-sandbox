@@ -1,0 +1,4 @@
+db_name: laravel
+db_user: laravel
+db_password: password
+app_path: /vagrant/web
